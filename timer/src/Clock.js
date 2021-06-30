@@ -7,11 +7,12 @@ function convertMS(initialState) {
 }
 
 class Timer {
-  constructor(time) {
-    this.time = time
-    this.paused = false;
+  constructor(time, bool) {
+    this.value = time
+    this.paused = bool;
     this.displayString = this.display(time);
   }
+
 
   display(ms) {
     var hours = Math.floor(ms / 3600000);
@@ -24,20 +25,17 @@ class Timer {
     if (seconds < 10) { seconds = "0" + seconds; }
     return hours + "H " + minutes + "M " + seconds + "S"
   }
-
-  unpause() {
-    this.paused = false
-  }
-  pause() {
-    this.paused = true
-  }
 }
 
+class ToggleButton extends React.Component {
+
+}
 
 export class Countdown extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { time: new Timer(5000) };
+    this.state = { time: new Timer(5000, false) };
+    this.toggleButton = this.toggleButton.bind(this);
   }
 
   componentDidMount() {
@@ -51,21 +49,64 @@ export class Countdown extends React.Component {
     clearInterval(this.timerID);
   }
 
+  toggleButton() {
+    this.setState(prevState => ({
+      time: { value: (prevState.time.value), paused: !(prevState.time.paused) }
+    }));
+  }
+
   render() {
     return (
       <div>
+        <button id="toggle" onClick={this.toggleButton}>{this.state.time.paused ? 'Start' : 'Pause'} </button>
         <h1>{this.state.time.displayString}</h1>
-      </div>
+      </div >
     );
   }
 
   tick() {
     this.setState({
-      time: new Timer(this.state.time.time - 1000)
+      time: new Timer(this.state.time.value - 1000, this.state.time.paused)
     });
   }
 }
 
+// export class Display extends React.Component {
+//   constructor(props) {
+//     super(props);
+//     this.state = { time: new Timer(5000, false) };
+//     this.toggleButton = this.toggleButton.bind(this);
+//   }
+//   componentDidMount() {
+//     this.timerID = setInterval(
+//       () => this.tick(),
+//       1000
+//     );
+//   }
 
+//   componentWillUnmount() {
+//     clearInterval(this.timerID);
+//   }
 
+//   toggleButton() {
+//     this.setState(prevState => ({
+//       time: { value: (prevState.time.value), paused: !(prevState.time.paused) }
+//     }));
+//   }
+
+//   render() {
+//     return (
+//       <div>
+//         <button id="toggle" onClick={this.toggleButton}>{this.state.time.paused ? 'Start' : 'Pause'} </button>
+//         <h1>{this.state.time.displayString}</h1>
+//       </div >
+//     );
+//   }
+
+//   tick() {
+//     this.setState({
+//       time: new Timer(this.state.time.value - 1000, this.state.time.paused)
+//     });
+//   }
+// }
 export default Countdown

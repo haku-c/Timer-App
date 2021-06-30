@@ -1,7 +1,7 @@
 .App {
   text-align: center;
 }
- input[type="start"] {
+ #toggle {
   border: 0;
   border-radius: 24px;
   display: block;
@@ -15,5 +15,5 @@
   color: white;
   transition: 0.25s; }
 
-input[type="start"]:hover {
+#toggle:hover {
   background: linear-gradient(120deg, #fb9cc4a2, #8400ffa2); }
