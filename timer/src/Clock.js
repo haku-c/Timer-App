@@ -47,7 +47,7 @@ export class Countdown extends React.Component {
 
   toggleButton() {
     this.setState(prevState => ({
-      time: { value: (prevState.time.value), paused: !(prevState.time.paused) }
+      time: new Timer(prevState.time.value, !(prevState.time.paused))
     }));
   }
   toggleDisplay() {
@@ -64,13 +64,13 @@ export class Countdown extends React.Component {
 
   tick(paused) {
     if (!paused) {
-      this.setState({
-        time: new Timer(this.state.time.value - 1000, this.state.time.paused)
-      });
+      this.setState(prevState => ({
+        time: new Timer(prevState.time.value - 1000, prevState.time.paused)
+      }));
     } else {
-      this.setState({
-        time: new Timer(this.state.time.value, this.state.time.paused)
-      });
+      this.setState(prevState => ({
+        time: new Timer(prevState.time.value, prevState.time.paused)
+      }));
     }
   }
 }
