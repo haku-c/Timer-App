@@ -1,13 +1,13 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import App from './App';
+import TimerForm from './App';
 import Clock from './Clock';
 import reportWebVitals from './reportWebVitals';
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <TimerForm />
     <Clock />
   </React.StrictMode>,
   document.getElementById('root')

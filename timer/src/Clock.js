@@ -6,13 +6,15 @@ function convertMS(initialState) {
   return initialState.seconds * 1000 + initialState.minutes * 60000 + initialState.hours * 3600000
 }
 
+/** A timer class has a value storing the time in milliseconds of the timer, 
+a field indicating if the timer is paused, and a display message based on the remaining time */
+
 class Timer {
   constructor(time, bool) {
     this.value = time
     this.paused = bool;
     this.displayString = this.display(time);
   }
-
 
   display(ms) {
     var hours = Math.floor(ms / 3600000);
@@ -27,6 +29,8 @@ class Timer {
   }
 }
 
+/** A countdown object has a state containing a timer. When rendered it will 
+ * show the time represented by the timer and a button that can pause and unpause the timer.  */
 export class Countdown extends React.Component {
   constructor(props) {
     super(props);
@@ -50,9 +54,7 @@ export class Countdown extends React.Component {
       time: new Timer(prevState.time.value, !(prevState.time.paused))
     }));
   }
-  toggleDisplay() {
 
-  }
   render() {
     return (
       <div>
