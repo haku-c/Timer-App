@@ -1,5 +1,4 @@
 import React from "react"
-// import ReactDOM from "react-dom"
 import './Clock.css'
 
 function convertMS(initialState) {
@@ -34,8 +33,17 @@ class Timer {
 export class Countdown extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { time: new Timer(5000, false) };
+    this.state = { time: new Timer(this.props.val, true) };
     this.toggleButton = this.toggleButton.bind(this);
+    console.log("countdown: " + props.value);
+  }
+
+  /** Apparently passing the initial state as a prop is prone to errors since 
+   * the constructor is only called once when the state renders the first time. 
+   * It will not change on any new renders on state change. So we need to have 
+   * this method for when the timer state does change.  */
+  componentWillReceiveProps(nextProps) {
+    this.setState({ time: new Timer(nextProps.val, true) });
   }
 
   componentDidMount() {
@@ -56,9 +64,12 @@ export class Countdown extends React.Component {
   }
 
   render() {
+    console.log("countdown: " + this.props.val);
+    console.log(this.state.time.value);
+    const timeLeft = this.state.time.displayString;
     return (
       <div>
-        <h1>{this.state.time.displayString}</h1>
+        <h1>{timeLeft}</h1>
         <button id="toggle" onClick={this.toggleButton}>{this.state.time.paused ? 'Start' : 'Pause'} </button>
       </div >
     );
