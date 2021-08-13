@@ -9,9 +9,8 @@ function convertMS(initialState) {
 a field indicating if the timer is paused, and a display message based on the remaining time */
 
 class Timer {
-  constructor(time, bool) {
+  constructor(time) {
     this.value = time
-    this.paused = bool;
     this.displayString = this.display(time);
   }
 
@@ -33,22 +32,13 @@ class Timer {
 export class Countdown extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { time: new Timer(this.props.val, true) };
+    this.state = { paused: true, time: new Timer(this.props.val) };
     this.toggleButton = this.toggleButton.bind(this);
-    console.log("countdown: " + props.value);
-  }
-
-  /** Apparently passing the initial state as a prop is prone to errors since 
-   * the constructor is only called once when the state renders the first time. 
-   * It will not change on any new renders on state change. So we need to have 
-   * this method for when the timer state does change.  */
-  componentWillReceiveProps(nextProps) {
-    this.setState({ time: new Timer(nextProps.val, true) });
   }
 
   componentDidMount() {
     this.timerID = setInterval(
-      () => this.tick(this.state.time.paused),
+      () => this.tick(this.state.paused),
       1000
     );
   }
@@ -58,33 +48,34 @@ export class Countdown extends React.Component {
   }
 
   toggleButton() {
+    console.log(this.state.paused)
     this.setState(prevState => ({
-      time: new Timer(prevState.time.value, !(prevState.time.paused))
+      paused: !(prevState.paused)
     }));
-  }
-
-  render() {
-    console.log("countdown: " + this.props.val);
-    console.log(this.state.time.value);
-    const timeLeft = this.state.time.displayString;
-    return (
-      <div>
-        <h1>{timeLeft}</h1>
-        <button id="toggle" onClick={this.toggleButton}>{this.state.time.paused ? 'Start' : 'Pause'} </button>
-      </div >
-    );
   }
 
   tick(paused) {
     if (!paused) {
       this.setState(prevState => ({
-        time: new Timer(prevState.time.value - 1000, prevState.time.paused)
+        time: new Timer(prevState.time.value - 1000),
+        paused: prevState.paused
       }));
     } else {
       this.setState(prevState => ({
-        time: new Timer(prevState.time.value, prevState.time.paused)
+        time: new Timer(prevState.time.value),
+        paused: prevState.paused
       }));
     }
+  }
+
+  render() {
+    const timeLeft = this.state.time.displayString;
+    return (
+      <div>
+        <h1>{timeLeft}</h1>
+        <button id="toggle" onClick={this.toggleButton}>{this.state.paused ? 'Start' : 'Pause'} </button>
+      </div >
+    );
   }
 }
 export default Countdown

@@ -10,26 +10,23 @@ export class TimerForm extends React.Component {
     this.state = { value: 0 };
 
     this.handleChange = this.handleChange.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   handleChange(event) {
     this.setState({ value: event.target.value });
   }
 
-  handleSubmit(event) {
-    console.log("form value: " + this.state.value);
-    event.preventDefault();
-  }
-
 
   render() {
+    const timerInput = this.state.value
     return (
       <div className="App">
-        <form onSubmit={this.handleSubmit}>
-          <input type="text" onChange={this.handleChange} name="user" placeholder="00:00:00" />
-        </form>
-        <Countdown val={this.state.value} />
+        <div className="Input" >
+          <form onSubmit={this.handleSubmit} >
+            <input type="text" onChange={this.handleChange} name="user" autoComplete="off" />
+          </form>
+        </div>
+        <Countdown val={timerInput} key={timerInput} />
       </div>);
   }
 }
