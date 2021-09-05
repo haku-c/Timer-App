@@ -72,7 +72,7 @@ export class Countdown extends React.Component {
     const timeLeft = this.state.time.displayString;
     var today = new Date();
     var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds() + ":" + today.getMilliseconds();
-    console.log(time);
+    //console.log(time);
     return (
       <div>
         <h1>{timeLeft}</h1>
